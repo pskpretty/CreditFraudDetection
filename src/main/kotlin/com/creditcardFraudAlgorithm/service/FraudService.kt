@@ -9,7 +9,15 @@ class FraudService {
     private var cardMap: MutableMap<String, BigDecimal> = mutableMapOf()
 
     private var fraudCardNumbers = mutableSetOf<String>()
-    fun detectFraud(transactionList: List<Transaction>, thresholdAmount: BigDecimal): Set<String> {
+
+    /**
+     * Detect fraud transaction card number from the list
+     * <p/>
+     *
+     * @param transactionList list of {@link Transaction}
+     * @param thresholdAmount cut off amount
+     */
+    fun findFraudAccounts(transactionList: List<Transaction>, thresholdAmount: BigDecimal): Set<String> {
         var i = 0
         val l = transactionList.size
         transactionList.forEach { transaction ->
@@ -28,6 +36,13 @@ class FraudService {
         return fraudCardNumbers
     }
 
+    /**
+     * Sliding window frame to identify cards within 24 hours
+     * <p/>
+     *
+     * @param transactionList list of {@link SlidingTransactionWindow}
+     * @param thresholdAmount cut off amount
+     */
     private fun checkFraudInSlidingWindow(
         slidingTransactionWindow: SlidingTransactionWindow, thresholdAmount: BigDecimal
     ) {
@@ -41,7 +56,13 @@ class FraudService {
         cardMap = mutableMapOf()
     }
 
-
+    /**
+     * Utility function to add card and sum within 24 hour frame
+     * <p/>
+     *
+     * @param cardNumber String
+     * @param transactionAmount per transaction amount
+     */
     private fun addCardAndAmountToMap(cardNumber: String, transactionAmount: BigDecimal) {
         if (cardMap.containsKey(cardNumber)) {
             val oldTotalAmount = cardMap[cardNumber]

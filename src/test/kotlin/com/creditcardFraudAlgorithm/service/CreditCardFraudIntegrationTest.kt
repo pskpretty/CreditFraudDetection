@@ -11,14 +11,14 @@ class CreditCardFraudIntegrationTest {
     @Test
     fun ` should detect fraudulent Cards from transaction list`(){
        val transactions = transactionService.readTransactionsFromFile("src/test/resources/TransactionFile.txt")
-        fraudService.detectFraud(transactions, BigDecimal(200.0) ).apply {
+        fraudService.findFraudAccounts(transactions, BigDecimal(200.0) ).apply {
             assertEquals(this.size,1)
         }
     }
     @Test
     fun ` should detect fraudulent Cards from transaction list for threshold`(){
         val transactions = transactionService.readTransactionsFromFile("src/test/resources/TransactionFile.txt")
-        fraudService.detectFraud(transactions, BigDecimal(100.0) ).apply {
+        fraudService.findFraudAccounts(transactions, BigDecimal(100.0) ).apply {
             assertEquals(this.size,8)
         }
     }
