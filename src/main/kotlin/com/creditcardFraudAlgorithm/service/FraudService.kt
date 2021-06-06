@@ -28,6 +28,7 @@ class FraudService {
                 start,
                 end
             )
+            //If a card is already marked as fraudulent then we can skip it from processing again in next 24 hour block
             when (fraudCardNumbers.contains(transaction.hashCardNumber)) {
                 true -> i++
                 else -> checkFraudInSlidingWindow(slidingTransactionWindow, thresholdAmount)

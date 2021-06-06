@@ -9,8 +9,17 @@ import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+/**
+This class is used for reading the csv file
+from input and for displaying the results
+to the screen
+ **/
 class TransactionService {
-     fun readTransactionsFromFile(inputPath: String): List<Transaction> {
+    /**
+    This method reads the data from text file
+     * @param input path String
+     **/
+    fun readTransactionsFromFile(inputPath: String): List<Transaction> {
         var lines = emptyList<String>()
         try {
             lines = Files.readAllLines(Paths.get(inputPath), StandardCharsets.UTF_8)
@@ -34,9 +43,12 @@ class TransactionService {
         return Transaction(cardNumber, transactionDate, amount)
     }
 
-    fun listFraudCardNumbers(fraudCardNumbers:Set<String>)
-    {
-        if(fraudCardNumbers.isEmpty()) {
+    /**
+    This method displays the result of fraudulent cards
+     * @param fraudCardNumbers path set of String
+     **/
+    fun listFraudCardNumbers(fraudCardNumbers: Set<String>) {
+        if (fraudCardNumbers.isEmpty()) {
             println("No fraud detected in the transactions.")
         }
         fraudCardNumbers.forEach {
