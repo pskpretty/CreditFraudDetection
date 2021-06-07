@@ -1,6 +1,7 @@
 package com.creditcardFraudAlgorithm.service
 
 import com.creditcardFraudAlgorithm.model.Transaction
+import org.springframework.stereotype.Service
 import java.io.IOException
 import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
@@ -9,17 +10,23 @@ import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+interface TransactionService {
+    fun readTransactionsFromFile(inputPath: String): List<Transaction>
+    fun listFraudCardNumbers(fraudCardNumbers: Set<String>): Set<String>
+}
+
 /**
 This class is used for reading the csv file
 from input and for displaying the results
 to the screen
  **/
-class TransactionService {
+@Service
+class TransactionServiceImpl : TransactionService {
     /**
     This method reads the data from text file
      * @param input path String
      **/
-    fun readTransactionsFromFile(inputPath: String): List<Transaction> {
+    override fun readTransactionsFromFile(inputPath: String): List<Transaction> {
         var lines = emptyList<String>()
         try {
             lines = Files.readAllLines(Paths.get(inputPath), StandardCharsets.UTF_8)
@@ -47,7 +54,7 @@ class TransactionService {
     This method displays the result of fraudulent cards
      * @param fraudCardNumbers path set of String
      **/
-    fun listFraudCardNumbers(fraudCardNumbers: Set<String>) {
+    override fun listFraudCardNumbers(fraudCardNumbers: Set<String>): Set<String> {
         if (fraudCardNumbers.isEmpty()) {
             println("No fraud detected in the transactions.")
         }
@@ -55,5 +62,6 @@ class TransactionService {
             println("Fraud detected on hashed card number $it")
 
         }
+        return fraudCardNumbers
     }
 }

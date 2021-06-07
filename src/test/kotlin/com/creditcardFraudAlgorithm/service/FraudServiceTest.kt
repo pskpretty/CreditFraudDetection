@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import kotlin.test.assertEquals
 
 class FraudServiceTest {
-    val fraudService = FraudService()
+    val fraudService = FraudServiceImpl()
 
     @Test
     fun `should detect fraud from one transaction`() {

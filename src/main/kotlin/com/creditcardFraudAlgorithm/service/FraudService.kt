@@ -2,10 +2,16 @@ package com.creditcardFraudAlgorithm.service
 
 import com.creditcardFraudAlgorithm.model.SlidingTransactionWindow
 import com.creditcardFraudAlgorithm.model.Transaction
+import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-class FraudService {
+interface FraudService {
+    fun findFraudAccounts(transactionList: List<Transaction>, thresholdAmount: BigDecimal): Set<String>
+}
+
+@Service
+class FraudServiceImpl : FraudService {
     private var cardMap: MutableMap<String, BigDecimal> = mutableMapOf()
 
     private var fraudCardNumbers = mutableSetOf<String>()
@@ -17,7 +23,7 @@ class FraudService {
      * @param transactionList list of {@link Transaction}
      * @param thresholdAmount cut off amount
      */
-    fun findFraudAccounts(transactionList: List<Transaction>, thresholdAmount: BigDecimal): Set<String> {
+    override fun findFraudAccounts(transactionList: List<Transaction>, thresholdAmount: BigDecimal): Set<String> {
         var i = 0
         val l = transactionList.size
         transactionList.forEach { transaction ->

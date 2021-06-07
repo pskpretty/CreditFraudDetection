@@ -7,7 +7,7 @@ import java.io.IOException
 import java.time.format.DateTimeParseException
 
 class TransactionServiceTest {
-    private val transactionService = TransactionService()
+    private val transactionService = TransactionServiceImpl()
 
     @Test
     fun `should throw exception when invalid amount found`() {
